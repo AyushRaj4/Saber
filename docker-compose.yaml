@@ -6,21 +6,26 @@ services:
       context: ./auth-service
       dockerfile: Dockerfile
       args:
-        NODE_ENV: ${AUTH_NODE_ENV:-production}  # Default to production
+        NODE_ENV: ${AUTH_NODE_ENV:-production}  # default production
     environment:
-      - NODE_ENV=${AUTH_NODE_ENV:-production}  # Also inside container at runtime
+      - NODE_ENV=${AUTH_NODE_ENV:-production}  # runtime
     ports:
       - "4000:4000"
     restart: unless-stopped
+    volumes:
+      - ./auth-service/src:/usr/src/app/src  # bind mount for live reload in dev
 
-  # user-service:
-  #   build:
-  #     context: ./user-service
-  #     dockerfile: Dockerfile
-  #     args:
-  #       NODE_ENV: ${USER_NODE_ENV:-production}
-  #   environment:
-  #     - NODE_ENV=${USER_NODE_ENV:-production}
-  #   ports:
-  #     - "4001:4000"
-  #   restart: unless-stopped
+# Uncomment and configure user-service similarly if needed
+#  user-service:
+#    build:
+#      context: ./user-service
+#      dockerfile: Dockerfile
+#      args:
+#        NODE_ENV: ${USER_NODE_ENV:-production}
+#    environment:
+#      - NODE_ENV=${USER_NODE_ENV:-production}
+#    ports:
+#      - "4001:4000"
+#    restart: unless-stopped
+#    volumes:
+#      - ./user-service/src:/usr/src/app/src
