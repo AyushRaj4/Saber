@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${AUTH_NODE_ENV:-production}  # Default to production
+    environment:
+      - NODE_ENV=${AUTH_NODE_ENV:-production}  # Also inside container at runtime
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+
+  # user-service:
+  #   build:
+  #     context: ./user-service
+  #     dockerfile: Dockerfile
+  #     args:
+  #       NODE_ENV: ${USER_NODE_ENV:-production}
+  #   environment:
+  #     - NODE_ENV=${USER_NODE_ENV:-production}
+  #   ports:
+  #     - "4001:4000"
+  #   restart: unless-stopped
